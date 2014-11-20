@@ -11,7 +11,9 @@
 #include "Afxmt.h"
 #include <afx.h>
 #include "FastINI.h"
-#include <itc50.h>
+
+#pragma comment (lib, "itc50.lib")  //C:\Program Files (x86)\Intermec\Developer Library\Lib\WCE600\WM6\Armv4i
+#include <itc50.h>	//C:\Program Files (x86)\Intermec\Developer Library\Include
 
 using namespace XmlRpc;
 
@@ -111,8 +113,10 @@ void Log(int MsgLevel,LPCTSTR lpszFormat, ...)
 	TCHAR szBuf[DEBUG_BUFLEN + 1];
 	memset(szBuf, 0, sizeof(szBuf));
 
-	if (LogLevel==0) return;
-	if (MsgLevel>LogLevel) return;
+	if (LogLevel==0) 
+		return;
+	if (MsgLevel>LogLevel) 
+		return;
 	va_list args;
 	va_start(args, lpszFormat);
 
@@ -206,7 +210,7 @@ void Log(int MsgLevel,LPCTSTR lpszFormat, ...)
 		}
 		catch (const XmlRpcException& fault)
 		{
-			Log(1,L"Exception in registerScreenContentsCallback");
+			Log(1,L"Exception in registerScreenContentsCallback %s", fault.getMessage());
 		}
 }
 
@@ -223,7 +227,7 @@ void StopGetScreenContents()
 		}
 		catch (const XmlRpcException& fault)
 		{
-			Log(1,L"Exception calling stopScreenContentsResponse");
+			Log(1,L"Exception calling stopScreenContentsResponse %s", fault.getMessage());
 		}
 }
 
@@ -249,7 +253,7 @@ public:
 	int requiredSize;
 //    wchar_t *wFieldText;
     wchar_t wFieldText[129];
-	WCHAR *PtrIni,*PtrFin;
+//	WCHAR *PtrIni,*PtrFin;
 	bool ShowMsg=false;
 
 	Log(2,L"RX: %d",nArgs);
@@ -263,7 +267,8 @@ public:
 		int attribute = params[i]["Attribute"];
 			
 	    requiredSize = mbstowcs(NULL, fieldText.c_str(), 0); // C4996
-		if (requiredSize>127) requiredSize=127;
+		if (requiredSize>127) 
+			requiredSize=127;
 		//wFieldText = (wchar_t *)malloc( (requiredSize + 1) * sizeof( wchar_t ));
 		//if (! wFieldText)
 		//{
@@ -370,7 +375,6 @@ DWORD WINAPI XMLRpcClientThread(PVOID ThreadParm)
 
 BOOL GetModulePath(TCHAR* pBuf, DWORD dwBufSize) 
 {
- 
   if (GetModuleFileName(NULL,pBuf,dwBufSize)) {
  
     //PathRemoveFileSpec(pBuf); // remove executable name
@@ -385,7 +389,9 @@ BOOL GetModulePath(TCHAR* pBuf, DWORD dwBufSize)
  
     return TRUE;
   }
+  return FALSE;
 }
+
 void ProcessINIFile()
 {
 TCHAR *Value;
