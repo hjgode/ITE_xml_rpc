@@ -124,6 +124,7 @@ void Log(int MsgLevel,LPCTSTR lpszFormat, ...)
 
 	va_end(args);
 
+	DEBUGMSG(1, (L"%s", szBuf));
 
 	hFile = CreateFile(LogFile,GENERIC_WRITE,0,0,OPEN_EXISTING,0,0);
 	if (hFile==INVALID_HANDLE_VALUE)
@@ -290,7 +291,7 @@ public:
 		}
 		//free(wFieldText);
 	}
-	//DumpScreenContent();
+	DumpScreenContent();
 
 	result = "OK";
   }
@@ -629,14 +630,15 @@ void InitScreenContent()
 	}
 }
 
-//void DumpScreenContent()
-//{
-//	int i;
-//	for (i=0; i<CurRows;i++)
-//	{
-//		Log(2,L"<%*.*s>",25,25,ScreenContent[i]);
-//	}
-//}
+void DumpScreenContent()
+{
+	int i;
+	for (i=0; i<CurRows;i++)
+	{
+		Log(2,L"<%*.*s>",25,25,ScreenContent[i]);
+		//DEBUGMSG(1, (L"<%*.*s>\n",25,25,ScreenContent[i]));
+	}
+}
 
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -672,8 +674,11 @@ int _tmain(int argc, _TCHAR* argv[])
 			ThreadCreated=true;
 		}
 	}
+	
+	do{
+		WaitForSingleObject(pi.hProcess,INFINITE);
+	}while((FindWindow(_T("IntermTE"), _T("ITE")))!=NULL);
 
-	WaitForSingleObject(pi.hProcess,INFINITE);
 	Log(1,L"ITE Exit");
 // OJO: NO funciona el salir de la función s.work, es necesario finalizar con TerminateThread
 	if (ThreadCreated)
