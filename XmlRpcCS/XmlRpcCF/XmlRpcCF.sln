@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlRpcCF", "XmlRpcCF\XmlRpcCF.csproj", "{2296EAE8-47B6-49D1-944C-16C42AB66A34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleClient", "SampleClient\SampleClient.csproj", "{719218D7-A4A1-4173-8543-E14FE1722CFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2296EAE8-47B6-49D1-944C-16C42AB66A34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2296EAE8-47B6-49D1-944C-16C42AB66A34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2296EAE8-47B6-49D1-944C-16C42AB66A34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2296EAE8-47B6-49D1-944C-16C42AB66A34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{719218D7-A4A1-4173-8543-E14FE1722CFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{719218D7-A4A1-4173-8543-E14FE1722CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{719218D7-A4A1-4173-8543-E14FE1722CFE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{719218D7-A4A1-4173-8543-E14FE1722CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{719218D7-A4A1-4173-8543-E14FE1722CFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{719218D7-A4A1-4173-8543-E14FE1722CFE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

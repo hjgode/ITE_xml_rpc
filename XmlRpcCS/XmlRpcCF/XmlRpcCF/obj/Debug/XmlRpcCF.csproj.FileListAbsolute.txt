@@ -1,0 +1,5 @@
+D:\svn\git\XmlRpcCS\XmlRpcCF\XmlRpcCF\obj\Debug\ResolveAssemblyReference.cache
+D:\svn\git\XmlRpcCS\XmlRpcCF\XmlRpcCF\bin\Debug\XmlRpcCF.dll
+D:\svn\git\XmlRpcCS\XmlRpcCF\XmlRpcCF\bin\Debug\XmlRpcCF.pdb
+D:\svn\git\XmlRpcCS\XmlRpcCF\XmlRpcCF\obj\Debug\XmlRpcCF.dll
+D:\svn\git\XmlRpcCS\XmlRpcCF\XmlRpcCF\obj\Debug\XmlRpcCF.pdb

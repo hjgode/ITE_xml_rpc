@@ -1,0 +1,9 @@
+D:\svn\git\XmlRpcCS\XmlRpcCF\SampleClient\bin\Debug\SampleClient.exe
+D:\svn\git\XmlRpcCS\XmlRpcCF\SampleClient\bin\Debug\SampleClient.pdb
+D:\svn\git\XmlRpcCS\XmlRpcCF\SampleClient\bin\Debug\XmlRpcCF.dll
+D:\svn\git\XmlRpcCS\XmlRpcCF\SampleClient\bin\Debug\XmlRpcCF.pdb
+D:\svn\git\XmlRpcCS\XmlRpcCF\SampleClient\obj\Debug\ResolveAssemblyReference.cache
+D:\svn\git\XmlRpcCS\XmlRpcCF\SampleClient\obj\Debug\SampleClient.Properties.Resources.resources
+D:\svn\git\XmlRpcCS\XmlRpcCF\SampleClient\obj\Debug\SampleClient.csproj.GenerateResource.Cache
+D:\svn\git\XmlRpcCS\XmlRpcCF\SampleClient\obj\Debug\SampleClient.exe
+D:\svn\git\XmlRpcCS\XmlRpcCF\SampleClient\obj\Debug\SampleClient.pdb

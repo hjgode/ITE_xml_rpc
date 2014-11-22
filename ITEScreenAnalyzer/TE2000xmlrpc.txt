@@ -1,0 +1,110 @@
+Port 50023
+
+ITC.registerScreenContentsCallBack() 
+ITC.GetScreenContents
+ITC.stopScreenContentsResponse
+ITC.sendKeys struct
+	char aCharString[2];
+	XmlRpcValue charStruct,result;
+	XmlRpcValue booleanFalse(false);
+	XmlRpcValue booleanTrue(true);
+	aTCharString[0] = KeyValue;
+	aTCharString[1] = '\0';
+	wcstombs(aCharString, aTCharString, 2);
+	charStruct[0]["Alt"] = booleanFalse;
+	charStruct[0]["Control"] = booleanFalse;
+	charStruct[0]["Shift"] = booleanFalse;
+	charStruct[0]["Special"] = booleanFalse;
+	charStruct[0]["KeyValue"] = (int)aCharString[0];
+	c->execute("ITC.sendKeys", charStruct, result);
+
+ITC.doWebBrowser, string URL
+ITC.closeWebBrowser, ""
+
+bool RegisterScreenContentsCallBack( String functionName, String IPAddress);
+functionName must be named GetScreenContents
+
+sendKeys(struct contents)
+
+StopScreenContentsResponse()
+
+Sample GetScreenContents xml string:
+
+<array>
+<data>
+<string>Session 1</string>
+<struct>
+<member>
+<name>Field Name</name>
+<value><string>Field 0</string></value>
+</member>
+<member>
+<name>Row</name>
+<value><i4>1</i4></value>
+</member>
+<member>
+<name>Column</name>
+<value><i4>5</i4></value>
+</member>
+<member>
+<name>Contents</name>
+<value><string>Title</string></value>
+</member>
+</struct>
+<struct>
+<member>
+<name>Field Name</name>
+<value><string>Field 1</string></value>
+</member>
+<member>
+<name>Row</name>
+<value><i4>2</i4></value>
+</member>
+<member>
+<name>Column</name>
+<value><i4>10</i4></value>
+</member>
+<member>
+<name>Contents</name>
+<value><string>12345</string></value>
+</member>
+<member>
+<name>Attributes</name>
+<array>
+<value><string>UNPROTECTED</string><value>
+<value><string>NUMERIC</string><value>
+<value><string>SCANABLE</string><value>
+</array>
+</member>
+</struct>
+</data>
+</array>
+<value>
+<array>
+<data>
+<value>Session 1</value>
+<value>
+<array>
+<data>
+<value>
+<struct>
+<member><name>Attribute</name><value><i4>1</i4></value></member>
+<member><name>Column</name><value><i4>1</i4></value></member>
+<member><name>Field</name><value>Field 1</value></member>
+<member><name>Row</name><value><i4>1</i4></value></member>
+</struct>
+</value>
+<value>
+<struct>
+<member><name>Attribute</name><value><i4>2</i4></value></member>
+<member><name>Column</name><value><i4>1</i4></value></member>
+<member><name>Field</name><value>Field 2</value></member>
+<member><name>Row</name><value><i4>2</i4></value></member>
+</struct>
+</value>
+</data>
+</array>
+</value>
+</data>
+</array>
+</value>

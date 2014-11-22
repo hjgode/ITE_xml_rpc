@@ -78,6 +78,8 @@ bool bFound;
 HWND hWndITEWindow;
 
 XmlRpcClient RpcClient("localhost", 50023);
+//XmlRpcClient RpcClient("192.168.0.44", 50023);
+
 int                iAcceptSocket;  /* Actual socket descriptor           */
 
 WCHAR LogFile[]=L"\\Flash File Store\\ITEScreenLOG.TXT";
@@ -199,6 +201,7 @@ void Log(int MsgLevel,LPCTSTR lpszFormat, ...)
 		Log(1,L"StartGetScreenContents");
 		Args[0] = "ITC.GetScreenContents";
 		Args[1] = "localhost";
+		//Args[1] = "192.168.1.145";
 		Args[2] = 12345;
 		//Args[2] = 50023;
 		try
