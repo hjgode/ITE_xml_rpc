@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlRpcCF", "XmlRpcCF\XmlRpc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleClient", "SampleClient\SampleClient.csproj", "{719218D7-A4A1-4173-8543-E14FE1722CFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleServer", "SampleServer\SampleServer.csproj", "{A5B98E6B-D438-4F04-AA29-096DA552FAA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{719218D7-A4A1-4173-8543-E14FE1722CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{719218D7-A4A1-4173-8543-E14FE1722CFE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{719218D7-A4A1-4173-8543-E14FE1722CFE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A5B98E6B-D438-4F04-AA29-096DA552FAA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B98E6B-D438-4F04-AA29-096DA552FAA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5B98E6B-D438-4F04-AA29-096DA552FAA3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A5B98E6B-D438-4F04-AA29-096DA552FAA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5B98E6B-D438-4F04-AA29-096DA552FAA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5B98E6B-D438-4F04-AA29-096DA552FAA3}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

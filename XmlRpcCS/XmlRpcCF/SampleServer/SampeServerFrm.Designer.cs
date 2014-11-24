@@ -1,6 +1,6 @@
-﻿namespace SampleClient
+﻿namespace SampleServer
 {
-    partial class Form1
+    partial class SampeServerFrm
     {
         /// <summary>
         /// Required designer variable.

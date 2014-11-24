@@ -1,0 +1,9 @@
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleServer\bin\Debug\SampleServer.exe
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleServer\bin\Debug\SampleServer.pdb
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleServer\bin\Debug\XmlRpcCF.dll
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleServer\bin\Debug\XmlRpcCF.pdb
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleServer\obj\Debug\ResolveAssemblyReference.cache
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleServer\obj\Debug\SampleServer.Properties.Resources.resources
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleServer\obj\Debug\SampleServer.csproj.GenerateResource.Cache
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleServer\obj\Debug\SampleServer.exe
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleServer\obj\Debug\SampleServer.pdb

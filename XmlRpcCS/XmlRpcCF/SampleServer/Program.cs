@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace SampleClient
+namespace SampleServer
 {
     static class Program
     {
@@ -13,7 +13,7 @@ namespace SampleClient
         [MTAThread]
         static void Main()
         {
-            Application.Run(new TestClientServer());
+            Application.Run(new SampeServerFrm());
         }
     }
 }

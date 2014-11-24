@@ -4,16 +4,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{719218D7-A4A1-4173-8543-E14FE1722CFE}</ProjectGuid>
+    <ProjectGuid>{A5B98E6B-D438-4F04-AA29-096DA552FAA3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SampleClient</RootNamespace>
-    <AssemblyName>SampleClient</AssemblyName>
+    <RootNamespace>SampleServer</RootNamespace>
+    <AssemblyName>SampleServer</AssemblyName>
     <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PlatformFamilyName>WindowsCE</PlatformFamilyName>
     <PlatformID>E2BECB1F-8C8C-41ba-B736-9BE7D946A398</PlatformID>
-    <OSVersion>5.00</OSVersion>
-    <DeployDirSuffix>SampleClient</DeployDirSuffix>
+    <OSVersion>5.0</OSVersion>
+    <DeployDirSuffix>SampleServer</DeployDirSuffix>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <NativePlatformName>Windows CE</NativePlatformName>
     <FormFactorID>
@@ -53,17 +53,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestClientServer.cs">
+    <Compile Include="SampeServerFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TestClientServer.Designer.cs">
-      <DependentUpon>TestClientServer.cs</DependentUpon>
+    <Compile Include="SampeServerFrm.Designer.cs">
+      <DependentUpon>SampeServerFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="TestClientServer.resx">
-      <DependentUpon>TestClientServer.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -73,7 +70,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SampleServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XmlRpcCF\XmlRpcCF.csproj">

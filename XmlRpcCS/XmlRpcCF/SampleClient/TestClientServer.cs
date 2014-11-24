@@ -13,25 +13,90 @@ using Nwc.XmlRpc;
 
 namespace SampleClient
 {
-    public partial class Form1 : Form
+    public partial class TestClientServer : Form
     {
-        private static String URL = "http://169.254.2.1:50023";// "http://192.168.0.44:50023";
+        private static String URL = "http://169.254.2.1:50023";//"http://199.64.70.96:50023";// "http://169.254.2.1:50023";// "http://192.168.0.44:50023";
+        static string URLhost = "169.254.2.2";
+
         // localhost fails for unknown reason
         // 169.254.2.2 (ActiveSync Host)
         // 169.254.2.1 (ActiveSync Device)
 
         /// <summary><c>LoggerDelegate</c> compliant method that does logging to Console.
         /// This method filters out the <c>LogLevel.Information</c> chatter.</summary>
-        static public void WriteEntry(String msg, LogLevel level)
-        {
+        public void WriteEntry(String msg, LogLevel level)
+        {            
             if (level > LogLevel.Information) // ignore debug msgs
                 System.Diagnostics.Debug.WriteLine(String.Format("{0}: {1}", level, msg));
+            addLog(String.Format("{0}: {1}", level, msg));
         }
         /// <summary><c>LoggerDelegate</c> compliant method that does logging to Console.
         /// This method filters out the <c>LogLevel.Information</c> chatter.</summary>
-        static public void WriteEntry(String msg)
+        public void WriteEntry(String msg)
         {
             System.Diagnostics.Debug.WriteLine(String.Format("{0}: {1}", "info: " , msg));
+            addLog(String.Format("{0}: {1}", "info: ", msg));
+        }
+
+        public void startGetScreen()
+        {
+            // Send the sample.Ping RPC using the Send method which gives you a little more control...
+            XmlRpcRequest client = new XmlRpcRequest();
+            //ITC.registerScreenContentsCallback
+            client.MethodName = "ITC.registerScreenContentsCallback";
+            client.Params.Clear();
+            client.Params.Add("ITC.GetScreenContents");
+            client.Params.Add("169.254.2.2");// ("158.138.39.53");// ("169.254.2.2");   //ActiveSync Host PC
+            client.Params.Add(12345);
+            try
+            {
+                WriteEntry("### Invoke: " + client.MethodName);
+                Object response = client.Invoke(URL);
+                WriteEntry("### Response: " + response);
+            }
+            catch (XmlRpcException serverException)
+            {
+                WriteEntry(String.Format("Fault {0}: {1}", serverException.FaultCode, serverException.FaultString));
+            }
+            catch (System.Net.WebException ex)
+            {
+                WriteEntry("WebException");
+            }
+            catch (Exception e)
+            {
+                //WriteEntry("Exception " + e + "\n" + e.StackTrace);
+                WriteEntry("Exception " + e);
+            }
+        }
+
+        public void stopGetScreen()
+        {
+            // Send the sample.Ping RPC using the Send method which gives you a little more control...
+            XmlRpcRequest client = new XmlRpcRequest();
+            //ITC.stopScreenContentsResponse
+            client.MethodName = "ITC.stopScreenContentsResponse";
+            client.Params.Clear();
+            client.Params.Add("");
+            try
+            {
+                WriteEntry("### Invoke: " + client.MethodName);
+                Object response = client.Invoke(URL);
+                WriteEntry("### Response: " + response);
+            }
+            catch (XmlRpcException serverException)
+            {
+                WriteEntry(String.Format("Fault {0}: {1}", serverException.FaultCode, serverException.FaultString));
+            }
+            catch (System.Net.WebException ex)
+            {
+                WriteEntry("WebException");
+            }
+            catch (Exception e)
+            {
+                //WriteEntry("Exception " + e + "\n" + e.StackTrace);
+                WriteEntry("Exception " + e);
+            }
+
         }
 
         /// <summary>Main application method.</summary>
@@ -41,10 +106,9 @@ namespace SampleClient
         /// </remarks>
         public void Test()
         {
-            WriteEntry("Server: " + URL);
-
             // Use the console logger above.
             Logger.Delegate = new Logger.LoggerDelegate(WriteEntry);
+            WriteEntry("Server: " + URL);
 
             // Send the sample.Ping RPC using the Send method which gives you a little more control...
             XmlRpcRequest client = new XmlRpcRequest();
@@ -59,16 +123,21 @@ namespace SampleClient
 
                 if (response.IsFault)
                 {
-                    WriteEntry(String.Format("Fault {0}: {1}", response.FaultCode, response.FaultString),LogLevel.Error);
+                    WriteEntry(String.Format("Fault {0}: {1}", response.FaultCode, response.FaultString), LogLevel.Error);
                 }
                 else
                 {
                     WriteEntry("### Returned: " + response.Value);
                 }
             }
+            catch (System.Net.WebException ex)
+            {
+                WriteEntry("WebException");
+            }
             catch (Exception e)
             {
-                WriteEntry("Exception " + e + "\n" + e.StackTrace);
+                //WriteEntry("Exception " + e + "\n" + e.StackTrace);
+                WriteEntry("Exception " + e);
             }
 
             // Invoke the sample.Echo RPC - Invoke more closely parallels a method invocation
@@ -88,9 +157,14 @@ namespace SampleClient
             {
                 WriteEntry(String.Format("Fault {0}: {1}", serverException.FaultCode, serverException.FaultString));
             }
+            catch (System.Net.WebException ex)
+            {
+                WriteEntry("WebException");
+            }
             catch (Exception e)
             {
-                WriteEntry("Exception " + e + "\n" + e.StackTrace);
+                //WriteEntry("Exception " + e + "\n" + e.StackTrace);
+                WriteEntry("Exception " + e);
             }
 
 
@@ -112,49 +186,14 @@ namespace SampleClient
             {
                 WriteEntry(String.Format("Fault {0}: {1}", serverException.FaultCode, serverException.FaultString));
             }
-            catch (Exception e)
+            catch (System.Net.WebException ex)
             {
-                WriteEntry("Exception " + e + "\n" + e.StackTrace);
-            }
-
-            //ITC.registerScreenContentsCallback
-            client.MethodName = "ITC.registerScreenContentsCallback";
-            client.Params.Clear();
-            client.Params.Add("ITC.GetScreenContents");
-            client.Params.Add("localhost");
-            client.Params.Add(12345);
-            try
-            {
-                WriteEntry("### Invoke: " + client.MethodName);
-                Object response = client.Invoke(URL);
-                WriteEntry("### Response: " + response);
-            }
-            catch (XmlRpcException serverException)
-            {
-                WriteEntry(String.Format("Fault {0}: {1}", serverException.FaultCode, serverException.FaultString));
+                WriteEntry("WebException");
             }
             catch (Exception e)
             {
-                WriteEntry("Exception " + e + "\n" + e.StackTrace);
-            }
-
-            //ITC.stopScreenContentsResponse
-            client.MethodName = "ITC.stopScreenContentsResponse";
-            client.Params.Clear();
-            client.Params.Add("");
-            try
-            {
-                WriteEntry("### Invoke: " + client.MethodName);
-                Object response = client.Invoke(URL);
-                WriteEntry("### Response: " + response);
-            }
-            catch (XmlRpcException serverException)
-            {
-                WriteEntry(String.Format("Fault {0}: {1}", serverException.FaultCode, serverException.FaultString));
-            }
-            catch (Exception e)
-            {
-                WriteEntry("Exception " + e + "\n" + e.StackTrace);
+                //WriteEntry("Exception " + e + "\n" + e.StackTrace);
+                WriteEntry("Exception " + e);
             }
 
             //ITC.doWebBrowser
@@ -171,9 +210,14 @@ namespace SampleClient
             {
                 WriteEntry(String.Format("Fault {0}: {1}", serverException.FaultCode, serverException.FaultString));
             }
+            catch (System.Net.WebException ex)
+            {
+                WriteEntry("WebException");
+            }
             catch (Exception e)
             {
-                WriteEntry("Exception " + e + "\n" + e.StackTrace);
+                //WriteEntry("Exception " + e + "\n" + e.StackTrace);
+                WriteEntry("Exception " + e);
             }
 
             System.Threading.Thread.Sleep(3000);
@@ -192,9 +236,14 @@ namespace SampleClient
             {
                 WriteEntry(String.Format("Fault {0}: {1}", serverException.FaultCode, serverException.FaultString));
             }
+            catch (System.Net.WebException ex)
+            {
+                WriteEntry("WebException");
+            }
             catch (Exception e)
             {
-                WriteEntry("Exception " + e + "\n" + e.StackTrace);
+                //WriteEntry("Exception " + e + "\n" + e.StackTrace);
+                WriteEntry("Exception " + e );
             }
 
             /*
@@ -245,10 +294,58 @@ namespace SampleClient
             }
         }
 
-        public Form1()
+        delegate void SetTextCallback(string text);
+        public void addLog(string text)
+        {
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (this.txtLog.InvokeRequired)
+            {
+                SetTextCallback d = new SetTextCallback(addLog);
+                this.Invoke(d, new object[] { text });
+            }
+            else
+            {
+                if (txtLog.Text.Length > 20000)
+                    txtLog.Text = "";
+                txtLog.Text += text + "\r\n";
+                txtLog.SelectionLength = 0;
+                txtLog.SelectionStart = txtLog.Text.Length - 1;
+                txtLog.ScrollToCaret();
+            }
+        }
+
+        public TestClientServer()
         {
             InitializeComponent();
+            //Test();
+            //this.TopMost = true;
+        }
+
+        private void Form1_Closing(object sender, CancelEventArgs e)
+        {
+            SampleServer.Stop();
+            this.TopMost = false;
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            SampleServer.Start();
+            startGetScreen();
+        }
+
+        private void btnTest_Click(object sender, EventArgs e)
+        {
             Test();
         }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            stopGetScreen();
+            SampleServer.Stop();
+        }
+
+
     }
 }
