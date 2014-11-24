@@ -1,3 +1,7 @@
+*.user
+*.idb
+*.suo
+
 # Compiled Object files
 *.slo
 *.lo
