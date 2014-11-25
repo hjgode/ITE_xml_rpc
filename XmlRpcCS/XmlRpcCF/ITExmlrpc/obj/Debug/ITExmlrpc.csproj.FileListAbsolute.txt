@@ -1,0 +1,7 @@
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\ITExmlrpc\bin\Debug\ITExmlrpc.dll
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\ITExmlrpc\bin\Debug\ITExmlrpc.pdb
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\ITExmlrpc\bin\Debug\XmlRpcCF.dll
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\ITExmlrpc\bin\Debug\XmlRpcCF.pdb
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\ITExmlrpc\obj\Debug\ResolveAssemblyReference.cache
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\ITExmlrpc\obj\Debug\ITExmlrpc.dll
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\ITExmlrpc\obj\Debug\ITExmlrpc.pdb

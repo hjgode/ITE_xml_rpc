@@ -319,6 +319,7 @@ namespace SampleClient
         public TestClientServer()
         {
             InitializeComponent();
+
             //Test();
             //this.TopMost = true;
         }
@@ -326,6 +327,7 @@ namespace SampleClient
         private void Form1_Closing(object sender, CancelEventArgs e)
         {
             SampleServer.Stop();
+            
             this.TopMost = false;
         }
 
@@ -344,6 +346,48 @@ namespace SampleClient
         {
             stopGetScreen();
             SampleServer.Stop();
+        }
+
+        ITExmlrpc.XmlRpcClient ite=null;
+        ITExmlrpc.ITExmlrpcServer server = null;
+        private void btnClass_Click(object sender, EventArgs e)
+        {
+            object oRes = null;
+
+            addLog("Create new client..."); Application.DoEvents();
+            ite = new ITExmlrpc.XmlRpcClient(URL);
+            addLog("doWebBrowser..."); Application.DoEvents();
+            oRes = ite.doWebBrowser("google.com");
+            addLog("Sleep 5 seconds..."); Application.DoEvents();
+            System.Threading.Thread.Sleep(5000);
+            addLog("Close Web browser..."); Application.DoEvents();
+            oRes = ite.closeWebBrowser();
+            addLog("sendKeys..."); Application.DoEvents();
+            oRes = ite.sendKeys(new ITExmlrpc.XmlRpcClient.keyStruct('\x0d'));
+
+            //start server
+            addLog("Create server object..."); Application.DoEvents();
+            server = new ITExmlrpc.ITExmlrpcServer(URL);
+            server.updateEvent += new ITExmlrpc.ITExmlrpcServer.updateEventHandler(this.server_updateEvent);
+            addLog("register callback..."); Application.DoEvents();
+            oRes = server.registerScreenContentsCallback("169.254.2.2", 12345);
+        }
+
+        void server_updateEvent(object sender, ITExmlrpc.MyEventArgs eventArgs)
+        {
+            for (int i = 0; i < eventArgs.msg.Length; i++)
+                addLog(eventArgs.msg[i]);
+        }
+
+        private void btnClassStop_Click(object sender, EventArgs e)
+        {
+            addLog("stop getScreenResponse..."); Application.DoEvents();
+            object oRes = server.stopScreenContentsResponse();
+            addLog("Disposing objects..."); Application.DoEvents();
+            server.Dispose();
+            ite.Dispose();
+            addLog("DONE"); Application.DoEvents();
+
         }
 
 

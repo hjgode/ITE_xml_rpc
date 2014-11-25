@@ -32,14 +32,18 @@
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnTest = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.txtLog = new System.Windows.Forms.TextBox();
-            this.btnStop = new System.Windows.Forms.Button();
+            this.btnClass = new System.Windows.Forms.Button();
+            this.btnClassStop = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnClassStop);
+            this.panel1.Controls.Add(this.btnClass);
             this.panel1.Controls.Add(this.btnTest);
             this.panel1.Controls.Add(this.btnStop);
             this.panel1.Controls.Add(this.btnStart);
@@ -56,6 +60,15 @@
             this.btnTest.TabIndex = 0;
             this.btnTest.Text = "Test";
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // btnStop
+            // 
+            this.btnStop.Location = new System.Drawing.Point(3, 26);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(65, 20);
+            this.btnStop.TabIndex = 0;
+            this.btnStop.Text = "Stop";
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // btnStart
             // 
@@ -80,14 +93,23 @@
             this.txtLog.TabIndex = 1;
             this.txtLog.WordWrap = false;
             // 
-            // btnStop
+            // btnClass
             // 
-            this.btnStop.Location = new System.Drawing.Point(3, 26);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(65, 20);
-            this.btnStop.TabIndex = 0;
-            this.btnStop.Text = "Stop";
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.btnClass.Location = new System.Drawing.Point(74, 26);
+            this.btnClass.Name = "btnClass";
+            this.btnClass.Size = new System.Drawing.Size(65, 20);
+            this.btnClass.TabIndex = 0;
+            this.btnClass.Text = "TestClass";
+            this.btnClass.Click += new System.EventHandler(this.btnClass_Click);
+            // 
+            // btnClassStop
+            // 
+            this.btnClassStop.Location = new System.Drawing.Point(145, 26);
+            this.btnClassStop.Name = "btnClassStop";
+            this.btnClassStop.Size = new System.Drawing.Size(65, 20);
+            this.btnClassStop.TabIndex = 0;
+            this.btnClassStop.Text = "StopClass";
+            this.btnClassStop.Click += new System.EventHandler(this.btnClassStop_Click);
             // 
             // TestClientServer
             // 
@@ -116,6 +138,8 @@
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnClass;
+        private System.Windows.Forms.Button btnClassStop;
     }
 }
 

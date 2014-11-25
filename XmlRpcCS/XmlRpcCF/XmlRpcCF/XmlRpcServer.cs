@@ -22,6 +22,7 @@ namespace Nwc.XmlRpc
         private IDictionary _handlers;
         private XmlRpcSystemObject _system;
         private WaitCallback _wc;
+        private bool bStopListen = true;
 
         ///<summary>Constructor with port and address.</summary>
         ///<remarks>This constructor sets up a TcpListener listening on the
@@ -44,6 +45,7 @@ namespace Nwc.XmlRpc
         ///<param name="port"><c>Int</c> value of the port to listen on.</param>
         public XmlRpcServer(int port) : this(IPAddress.Any, port) { }
 
+        Thread th=null;
         /// <summary>Start the server.</summary>
         public void Start()
         {
@@ -57,7 +59,7 @@ namespace Nwc.XmlRpc
                     _myListener = new TcpListener(_port);
                     _myListener.Start();
                     //start the thread which calls the method 'StartListen'
-                    Thread th = new Thread(new ThreadStart(StartListen));
+                    th = new Thread(new ThreadStart(StartListen));
                     th.Start();
                 }
             }
@@ -72,12 +74,24 @@ namespace Nwc.XmlRpc
         {
             try
             {
+                bStopListen = false;
+
+                if (th != null)
+                {
+                    Logger.WriteEntry("Thread stopped", LogLevel.Warning);
+                    th.Abort();
+                }
                 if (_myListener != null)
                 {
                     lock (this)
                     {
-                        _myListener.Stop();
-                        _myListener = null;
+                        try
+                        {
+                            Logger.WriteEntry("stopping myListener", LogLevel.Warning);
+                            _myListener.Stop();
+                            _myListener = null;
+                        }catch(Exception){
+                        }
                     }
                 }
             }
@@ -108,7 +122,7 @@ namespace Nwc.XmlRpc
         ///</summary>
         public void StartListen()
         {
-            while (true && _myListener != null)
+            while (!bStopListen && _myListener != null)
             {
                 //Accept a new connection
                 try

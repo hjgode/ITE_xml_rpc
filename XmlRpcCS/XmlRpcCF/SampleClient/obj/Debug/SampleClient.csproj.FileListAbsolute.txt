@@ -17,3 +17,5 @@ D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleClient\obj\Debug\SampleClient.csp
 D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleClient\obj\Debug\SampleClient.exe
 D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleClient\obj\Debug\SampleClient.pdb
 D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleClient\obj\Debug\SampleClient.TestClientServer.resources
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleClient\bin\Debug\ITExmlrpc.dll
+D:\svn\git\ITE_xml_rpc\XmlRpcCS\XmlRpcCF\SampleClient\bin\Debug\ITExmlrpc.pdb
