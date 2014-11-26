@@ -12,15 +12,23 @@ namespace ITExmlrpc
     {
         XmlRpcServer server = null;
         XmlRpcClient client = null;
-        string sHost = "127.0.0.1";
+        string sHostITE = "127.0.0.1";
+        int iPort = 12345;
 
+        /// <summary>
+        /// init a new ITE server object
+        /// </summary>
+        /// <param name="UrlITE">the URL of the running ITE (http://host_or_ip:50023)</param>
         public ITExmlrpcServer(string UrlITE)
         {
+            sHostITE = UrlITE;
             client = new XmlRpcClient(UrlITE);
         }
         
         ITExmlrpcServer()
         {
+            if(client==null)
+                client = new XmlRpcClient(sHostITE);
         }
 
         public void Dispose()
@@ -32,21 +40,61 @@ namespace ITExmlrpc
             }
         }
 
-        public object registerScreenContentsCallback(string sHost, int iPort)
+        /// <summary>
+        /// start the server listening on port x
+        /// </summary>
+        void startServer()
         {
             if (server == null)
             {
                 this.Start(iPort);
             }
-
-            return client.clientSend("ITC.registerScreenContentsCallback", new object[] { "ITC.GetScreenContents", sHost, iPort });
         }
 
+        /// <summary>
+        /// send ITE the method registerScreenContentsCallback
+        /// </summary>
+        /// <param name="sHost">which server hosts the callback method</param>
+        /// <param name="Port">which port is to be used for the callback method</param>
+        /// <returns>the result of the method request</returns>
+        public object registerScreenContentsCallback(string sHost, int Port)
+        {
+            iPort = Port;
+            startServer();
+            return client.clientSend("ITC.registerScreenContentsCallback", new object[] { "ITC.GetScreenContents", sHost, iPort });
+        }
+        /// <summary>
+        /// send ITE the method registerScreenContentsCallback in async mode
+        /// </summary>
+        /// <param name="sHost">which server hosts the callback method</param>
+        /// <param name="Port">which port is to be used for the callback method</param>
+        /// <returns>results are reported via an eventhandler</returns>
+        public void registerScreenContentsCallbackAsync(string sHost, int Port)
+        {
+            iPort = Port;
+            startServer();
+            client.clientSendAsync("ITC.registerScreenContentsCallback", new object[] { "ITC.GetScreenContents", sHost, iPort });
+        }
+
+        /// <summary>
+        /// call the ITE stopScreenContentsResponse method to stop ITE to callback
+        /// </summary>
+        /// <returns>the result of the ITE method call</returns>
         public object stopScreenContentsResponse()
         {
             if (server != null)
                 server.Stop();
             return client.clientSend("ITC.stopScreenContentsResponse", new object[] { "" });
+        }
+        /// <summary>
+        /// call the ITE stopScreenContentsResponse method to stop ITE to callback in async mode
+        /// results are reported via an eventhandler
+        /// </summary>
+        public void stopScreenContentsResponseAsync()
+        {
+            if (server != null)
+                server.Stop();
+            client.clientSendAsync("ITC.stopScreenContentsResponse", new object[] { "" });
         }
 
 
@@ -69,12 +117,20 @@ namespace ITExmlrpc
             if (server == null)
             {
                 server = new XmlRpcServer(PORT);
-                server.Add("ITC", new ITExmlrpcServer());
+
+                server.Add("ITC", new ITExmlrpcServer()); //using that constructor we will get a new server and event subscription will not work
+                //server.Add("ITC", this);
+                
                 System.Diagnostics.Debug.WriteLine(string.Format("Web Server Running on port {0} ...", PORT));
                 server.Start();
             }
         }
 
+        /// <summary>
+        /// this is the local server method called by ITE on Screen updates
+        /// </summary>
+        /// <param name="parameters">a list of arguments</param>
+        /// <returns>always OK to the client (ITE)</returns>
         public object GetScreenContents(IList parameters)
         {
             clrScreen();
@@ -82,7 +138,7 @@ namespace ITExmlrpc
             System.Diagnostics.Debug.WriteLine("\n#########################\n" + iCnt.ToString() + "\n#########################\n");
             Object[] args = new Object[parameters.Count];
             int col = 0, row = 0;
-            string field = "";
+            string field = "", attribute="";
             foreach (Object arg in parameters)
             {
                 try
@@ -90,49 +146,90 @@ namespace ITExmlrpc
                     Hashtable ht = (Hashtable)arg;
                     foreach (DictionaryEntry de in ht)
                     {
-                        if (de.Key.ToString() == "Column")
-                            col = int.Parse(de.Value.ToString());
-                        if (de.Key.ToString() == "Row")
-                            row = int.Parse(de.Value.ToString());
+                        if (de.Key != null)
+                        {
+                            if (de.Key.ToString() == "Attribute")
+                                if (de.Value != null)
+                                    attribute = de.Value.ToString();
+                                else
+                                    attribute = "";
+                            if (de.Key.ToString() == "Column")
+                                if (de.Value != null)
+                                    col = int.Parse(de.Value.ToString());
+                            if (de.Key.ToString() == "Row")
+                                if (de.Value != null)
+                                    row = int.Parse(de.Value.ToString());
 
-                        if (de.Key.ToString() == "Field")
-                            if (de.Value != null)
-                                field = de.Value.ToString();
-                            else
-                                field = "";
-                        //System.Diagnostics.Debug.WriteLine(de.Key.ToString() + "->" + de.Value.ToString());
+                            if (de.Key.ToString() == "Field")
+                                if (de.Value != null)
+                                    field = de.Value.ToString();
+                                else
+                                    field = "";
+
+                            /*
+                             * 32=bold
+                             *  2=underline
+                             *  8=blink
+                             *  4=reverse
+                             *  0=normal
+                            */
+                            //if(de.Value!=null)
+                            //    System.Diagnostics.Debug.WriteLine(de.Key.ToString() + "->" + de.Value.ToString());
+                            //else
+                            //    System.Diagnostics.Debug.WriteLine(de.Key.ToString() + "->" + "null");
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
                     //screen[row] = screen[row].Insert(col, field);
                     char[] screenRow = screen[row].ToCharArray();
                     //will the field fit?
-                    if (field.Length + col > maxCol)
-                        field.Substring(0, maxCol - field.Length);
+                    if (field.Length + col > screenRow.Length)
+                        field = field.Substring(0, screenRow.Length - field.Length);
                     //copy field into screen var
                     field.CopyTo(0, screenRow, col, field.Length);
                     screen[row] = new string(screenRow);
                     if (row > maxRow)
+                    {
                         maxRow = row;
+                        System.Diagnostics.Debug.WriteLine("new MaxRow=" + maxRow.ToString());
+                    }
+                    if (col + field.Length > maxCol)
+                    {
+                        maxCol = col + field.Length;
+                        System.Diagnostics.Debug.WriteLine("new MaxCol=" + maxCol.ToString());
+                    }
                 }
                 catch (Exception) { }
             }
             dumpScreen();
             return "OK";// new XmlRpcResponse(0, "OK");
         }
+
         #region screen
         string[] screen = new string[128];
         int maxRow = 0;
-        int maxCol = 128;
+        int maxCol = 0;
+        const int DefColCount = 60;
         void clrScreen()
         {
-            screen = new string[128];
-            for (int x = 0; x < 128; x++)
-                screen[x] = " ".PadRight(128, ' ');
+            screen = new string[DefColCount];
+            for (int x = 0; x < DefColCount; x++)
+                screen[x] = " ".PadRight(DefColCount, ' ');
+            maxRow = 0;
+            maxCol = 0;
         }
         void dumpScreen()
         {
+            string[] dump = new string[maxRow];
             for (int i = 0; i < maxRow; i++)
-                System.Diagnostics.Debug.WriteLine(screen[i]);
-            this.onUpdateHandler(new MyEventArgs(screen));
+            {
+                dump[i] = screen[i].TrimEnd(new char[] { ' ' });
+                System.Diagnostics.Debug.WriteLine("'" + dump[i] + "'");
+            }
+            this.onUpdateHandler(new MyEventArgs(dump));
 
         }
         #endregion
@@ -159,7 +256,9 @@ namespace ITExmlrpc
         //    return "OK";// new XmlRpcResponse(0, "OK");
         //}
 
-
+        /// <summary>
+        /// stop the server
+        /// </summary>
         public void Stop()
         {
             if (server != null)
@@ -172,7 +271,7 @@ namespace ITExmlrpc
         #region DelegateEvent
 
         public delegate void updateEventHandler(object sender, MyEventArgs eventArgs);
-        public updateEventHandler updateEvent;
+        public static updateEventHandler updateEvent; //static works as a new server is created for a call
         protected virtual void onUpdateHandler(MyEventArgs args)
         {
             //anyone listening?

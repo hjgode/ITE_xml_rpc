@@ -73,7 +73,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SampleServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ITExmlrpc\ITExmlrpc.csproj">
