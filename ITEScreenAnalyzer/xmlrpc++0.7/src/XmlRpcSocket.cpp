@@ -4,6 +4,8 @@
 
 #ifndef MAKEDEPEND
 
+#define _WINDOWS
+
 #if defined(_WINDOWS)
 # include <stdio.h>
 # include <winsock2.h>

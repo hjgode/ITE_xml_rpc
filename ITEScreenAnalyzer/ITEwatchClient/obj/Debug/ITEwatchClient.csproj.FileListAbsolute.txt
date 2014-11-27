@@ -1,0 +1,8 @@
+D:\svn\git\ITE_xml_rpc\ITEScreenAnalyzer\ITEwatchClient\obj\Debug\ResolveAssemblyReference.cache
+D:\svn\git\ITE_xml_rpc\ITEScreenAnalyzer\ITEwatchClient\obj\Debug\ITEwatchClient.Properties.Resources.resources
+D:\svn\git\ITE_xml_rpc\ITEScreenAnalyzer\ITEwatchClient\obj\Debug\ITEwatchClient.csproj.GenerateResource.Cache
+D:\svn\git\ITE_xml_rpc\ITEScreenAnalyzer\ITEwatchClient\bin\Debug\ITEwatchClient.exe
+D:\svn\git\ITE_xml_rpc\ITEScreenAnalyzer\ITEwatchClient\bin\Debug\ITEwatchClient.pdb
+D:\svn\git\ITE_xml_rpc\ITEScreenAnalyzer\ITEwatchClient\obj\Debug\ITEwatchClient.Form1.resources
+D:\svn\git\ITE_xml_rpc\ITEScreenAnalyzer\ITEwatchClient\obj\Debug\ITEwatchClient.exe
+D:\svn\git\ITE_xml_rpc\ITEScreenAnalyzer\ITEwatchClient\obj\Debug\ITEwatchClient.pdb

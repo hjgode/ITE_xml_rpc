@@ -52,3 +52,4 @@
 #include <altcecrt.h>
 
 // TODO: mencionar aquí los encabezados adicionales que el programa necesita
+#include "msgqueue.h"

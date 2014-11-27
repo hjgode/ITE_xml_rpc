@@ -7,16 +7,19 @@
 
 //ojo #include <sys/timeb.h>
 
-#if defined(_WINDOWS)
-# include <winsock2.h>
+#define _WINDOWS
 
-# define USE_FTIME
-# if defined(_MSC_VER)
-#  define timeb _timeb
-#  define ftime _ftime
-# endif
+#if defined(_WINDOWS)
+	#include <winsock2.h>
+	#pragma comment (lib, "ws2.lib")
+
+#define USE_FTIME
+	#if defined(_MSC_VER)
+		#define timeb _timeb
+		#define ftime _ftime
+	#endif
 #else
-# include <sys/time.h>
+	# include <sys/time.h>
 #endif  // _WINDOWS
 
 
