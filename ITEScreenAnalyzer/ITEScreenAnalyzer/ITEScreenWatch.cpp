@@ -97,6 +97,7 @@ void writeToMsgQueue(TCHAR* sMsg){
 	}
 	DWORD dwTimeOut=100; //100ms
 	DWORD dwFlags=0x00;
+	//TCHAR szMsg[80]; memset(szMsg, 0, 80*sizeof(TCHAR));wcsncpy(szMsg, sMsg, wcslen(sMsg));
 	if(!WriteMsgQueue(g_hMsgQueue, (VOID*)sMsg, wcslen(sMsg)*sizeof(TCHAR), dwTimeOut, dwFlags)){
 		DWORD dwErr=GetLastError();
 		DEBUGMSG(1, (L"WriteMsgQueue failed: %i, ", dwErr));

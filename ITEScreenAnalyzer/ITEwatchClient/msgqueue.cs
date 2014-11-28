@@ -19,7 +19,7 @@ namespace ITEwatchClient
     {
         #region NativeStuff
         [DllImport("coredll.dll", SetLastError = true)]
-        static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
+        static extern UInt32 WaitForSingleObject(int hHandle, UInt32 dwMilliseconds);
 
         const UInt32 WAIT_INFINITE = 0xFFFFFFFF;
         enum Wait_Object
@@ -30,15 +30,18 @@ namespace ITEwatchClient
         }
 
         [DllImport("coredll.dll")]
-        static extern IntPtr CreateMsgQueue(string szName, ref MSGQUEUEOPTIONS pOptions);
+        static extern int CreateMsgQueue(string szName, ref MSGQUEUEOPTIONS pOptions);
         [DllImport("coredll.dll")]
         static extern IntPtr CreateMsgQueue(IntPtr hString, ref MSGQUEUEOPTIONS pOptions);
 
         [DllImport("coredll.dll", SetLastError = true)]
-        internal static extern bool ReadMsgQueue(IntPtr hMsgQ, IntPtr lpBuffer, int cbBufferSize, out int lpNumberOfBytesRead, int dwTimeout, out int pdwFlags);
+        internal static extern bool ReadMsgQueue(int hMsgQ, byte[] lpBuffer, int cbBufferSize, out int lpNumberOfBytesRead, int dwTimeout, out int pdwFlags);
 
         [DllImport("coredll.dll")]
-        static extern BOOL CloseMsgQueue(HANDLE h);
+        static extern BOOL CloseMsgQueue(int h);
+
+        [DllImport("coredll")]
+        static extern bool CloseHandle(IntPtr h);
 
         [StructLayout(LayoutKind.Sequential)]
         struct MSGQUEUEOPTIONS
@@ -70,11 +73,27 @@ namespace ITEwatchClient
         System.Threading.Thread msgThread = null;
         bool bRunThread = true;
 
-        [StructLayout(LayoutKind.Sequential)]
-        struct ITE_MESSAGE
+//        [StructLayout(LayoutKind.Sequential)]
+        class ITE_MESSAGE
         {
-            [MarshalAs(UnmanagedType.LPTStr, SizeConst=80)]
-            public string msg;
+            public ITE_MESSAGE(int size)
+            {
+                m_size = size;
+                m_data = new byte[size];
+            }
+            byte[] m_data;
+            int m_size=0;
+            public int size
+            {
+                get { return m_size; }
+            }
+//            [MarshalAs(UnmanagedType.LPTStr)] //if C/C++ is TCHAR*
+            //public string msg;
+            public byte[] msg
+            {
+                get { return m_data; }
+                set { m_data = value; }
+            }
         }
         const int ITE_MESSAGE_SIZE = 160;
 
@@ -111,12 +130,12 @@ namespace ITEwatchClient
         {
             //only BTE_DISCONNECTION and BTE_CONNECTION change this state!
             addLog("thread about to start");
-            IntPtr hMsgQueue = IntPtr.Zero;
-            IntPtr hBTevent = IntPtr.Zero;
+            int hMsgQueue = 0;
+//            IntPtr hBTevent = IntPtr.Zero;
             // allocate space to store the received messages
-            IntPtr msgBuffer = Marshal.AllocHGlobal(160);// ITE_MESSAGE_SIZE);
+            byte[] msgBuffer = new byte[160];// Marshal.AllocHGlobal(160);// ITE_MESSAGE_SIZE);
 
-            ITE_MESSAGE ite_msg = new ITE_MESSAGE();
+            ITE_MESSAGE ite_msg;
             try
             {
                 //create msgQueueOptions
@@ -130,7 +149,7 @@ namespace ITEwatchClient
                 hMsgQueue = CreateMsgQueue("ITESCREENS", ref msgQueueOptions);
                 addLog("CreateMsgQueue=" + Marshal.GetLastWin32Error().ToString()); //6 = InvalidHandle
 
-                if (hMsgQueue == IntPtr.Zero)
+                if (hMsgQueue == 0)
                 {
                     addLog("Create MsgQueue failed");
                     throw new Exception("Create MsgQueue failed");
@@ -157,16 +176,18 @@ namespace ITEwatchClient
                             //signaled
                             //check event type and fire event
                             //ReadMsgQueue entry
+                            ite_msg = new ITE_MESSAGE(160);
                             bool success = ReadMsgQueue(hMsgQueue,   // the open message queue
-                                                        msgBuffer,        // buffer to store msg
-                                                        160, //ITE_MESSAGE_SIZE,   // size of the buffer
+                                                        ite_msg.msg,// msgBuffer,        // buffer to store msg
+                                                        ite_msg.size, //ITE_MESSAGE_SIZE,   // size of the buffer
                                                         out bytesRead,    // bytes stored in buffer
                                                         -1,         // wait forever
                                                         out msgProperties);
                             if (success)
                             {
-                                // marshal the data read from the queue into a BTEVENT structure
-                                ite_msg = (ITE_MESSAGE)Marshal.PtrToStructure(msgBuffer, typeof(ITE_MESSAGE));
+                                // marshal the data read from the queue into a structure
+                                //ite_msg = (ITE_MESSAGE)Marshal.PtrToStructure(msgBuffer, typeof(ITE_MESSAGE));
+                                addLog("msgqueue read: " + Encoding.UTF8.GetString(ite_msg.msg, 0, bytesRead));
                             }
                             else
                             {
@@ -196,7 +217,7 @@ namespace ITEwatchClient
             }
             finally
             {
-                Marshal.FreeHGlobal(msgBuffer);
+                //Marshal.FreeHGlobal(msgBuffer);
                 CloseMsgQueue(hMsgQueue);
             }
             addLog("btmon thread ended");
