@@ -73,16 +73,16 @@ namespace ITEwatchClient
         System.Threading.Thread msgThread = null;
         bool bRunThread = true;
 
-//        [StructLayout(LayoutKind.Sequential)]
         class ITE_MESSAGE
         {
+            byte[] m_data;
+
             public ITE_MESSAGE(int size)
             {
                 m_size = size;
                 m_data = new byte[size];
             }
-            byte[] m_data;
-            int m_size=0;
+            internal int m_size=0;
             public int size
             {
                 get { return m_size; }
@@ -93,6 +93,10 @@ namespace ITEwatchClient
             {
                 get { return m_data; }
                 set { m_data = value; }
+            }
+            public override string ToString()
+            {
+                return Encoding.Unicode.GetString(msg, 0, msg.Length);
             }
         }
         const int ITE_MESSAGE_SIZE = 160;
@@ -187,14 +191,14 @@ namespace ITEwatchClient
                             {
                                 // marshal the data read from the queue into a structure
                                 //ite_msg = (ITE_MESSAGE)Marshal.PtrToStructure(msgBuffer, typeof(ITE_MESSAGE));
-                                addLog("msgqueue read: " + Encoding.UTF8.GetString(ite_msg.msg, 0, bytesRead));
+                                addLog("msgqueue read: " + ite_msg.ToString());//Encoding.Unicode.GetString(ite_msg.msg, 0, bytesRead));
                             }
                             else
                             {
                                 addLog("ReadMsgQueue error: " + Marshal.GetLastWin32Error().ToString());
                                 continue; //start a new while cirlce
                             }
-                            addLog("message received: " + ite_msg.msg.ToString());
+                            //addLog("message received: " + ite_msg.ToString());
                             break;
                         case Wait_Object.WAIT_ABANDONED:
                             //wait has abandoned
